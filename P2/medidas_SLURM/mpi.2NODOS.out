@@ -1,0 +1,8 @@
+[prun] Master compute host = n232-174
+[prun] Resource manager = slurm
+[prun] Launch cmd = mpirun ./a.out (family=openmpi4)
+A: 0.000000, B: 999999986991104.000000, N:1000000000
+Soy 0 inicio y fin son 0.000000 - 499999993495552.000000 integral ini es 33554432000000.000000 h 1000000.000000 
+Con 1000000000 trapezoides la estimacion es de 25165824000000.000000
+El programa ha durado 60.434592 segundos
+Soy 1 inicio y fin son 499999993495552.000000 - 999999986991104.000000 integral ini es -8388608000000.000000 h 1000000.000000 

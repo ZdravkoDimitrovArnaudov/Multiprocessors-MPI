@@ -1,0 +1,151 @@
+Zdravko Dimitrov Arnaudov
+---------------
+- MEMORIA P1 : Ejer 1
+--------------
+
+En este ejercicio haremos uso del modelo básico.
+
+ÍNDICE
+	1. A)
+	2. B) 
+	3. C)
+	4. D)
+	5. E)
+	
+
+1.
+
+Receiver: 0 printing messages received:
+Sender 1 has just finished.
+Message 0 received from 1: 100
+Message 1 received from 1: 101
+Message 2 received from 1: 102
+Message 3 received from 1: 103
+Message 4 received from 1: 104
+Message 5 received from 1: 105
+Message 6 received from 1: 106
+Message 7 received from 1: 107
+Message 8 received from 1: 108
+Message 9 received from 1: 109
+Receiver ends printing messages.
+
+Como podemos observar, los mensajes se reciben tal y como se mandan con dos procesos.
+
+
+
+2.
+
+Lo que debemos modificar son los rangos de los procesos para que se admitan más, (sustuir elseif(yo==1) por else). También, 
+será necesario indicar más procesos a correr con mpirun. Obtenemos lo siguiente:
+
+Receiver: 0 printing messages received:
+Sender 1 has just finished.
+Message 0 received from 1: 100
+Message 1 received from 1: 101
+Message 2 received from 1: 102
+Message 3 received from 1: 103
+Message 4 received from 1: 104
+Message 5 received from 1: 105
+Message 6 received from 1: 106
+Message 7 received from 1: 107
+Message 8 received from 1: 108
+Message 9 received from 1: 109
+Receiver ends printing messages.
+
+
+Al parecer, los mensajes guardan orden según el envío de cada proceso pero no entre ellos. Se
+reciben mezclados y es por que no estamos estableciendo ninguna política a la hora de recogerlos.
+
+
+
+3.
+
+Ahora, seleccionaremos los mensajes que recibimos según el número de proceso y tag del mensaje:
+
+Receiver: 0 printing messages received:
+Sender 1 has just finished.
+Message 9 received from 1: 109
+Message 8 received from 1: 108
+Message 7 received from 1: 107
+Message 6 received from 1: 106
+Message 5 received from 1: 105
+Message 4 received from 1: 104
+Message 3 received from 1: 103
+Message 2 received from 1: 102
+Message 1 received from 1: 101
+Message 0 received from 1: 100
+Sender 2 has just finished.
+Message 9 received from 2: 109
+Message 8 received from 2: 108
+Message 7 received from 2: 107
+Message 6 received from 2: 106
+Message 5 received from 2: 105
+Message 4 received from 2: 104
+Message 3 received from 2: 103
+Message 2 received from 2: 102
+Message 1 received from 2: 101
+Message 0 received from 2: 100
+Receiver ends printing messages.
+
+Efectivamente, se reciben según deseabamos.
+
+
+4.
+
+
+Si copiamos el código que viene en el ejemplo de moodle, el resultado es:
+
+Mando desde 0 
+He recibido Hola desde proceso 1! desde 1 
+He recibido Hola desde proceso 0! desde 0 
+Mando desde 1 
+
+La comunicación es segura porque cuando uno envía, el otro recibe.
+
+
+Veamos ahora la implementación con bloqueo, en la que ambos esperan a recibir el mensaje y luego mandan.
+Lo que sucede es que al quedarse ambos a la espera y sin mandar ningún mensaje, se quedan bloqueados y el programa 
+no termina. 
+
+Por último, analizaremos la versión insegura, donde ambos procesos envian a la vez y luego reciben. 
+Este modelo funciona cuando el tamaño de los datos no supera el umbral del buffer del sistema local. Cuando se supera,
+el sistema deja de almacenar los datos de envío al buffer y la terminación ya no es local.
+
+
+5.
+
+
+Con cada mensaje que se recibe, se muestra el tamaño. Usamos MPI_Get_count(&status, MPI_BYTE, &size_received).
+
+ Ejer1_E 
+Receiver: 0 printing messages received:
+Sender 1 has just finished.
+Message 0 received from 1: 100
+El tamaño del mensaje recibido es: 4
+Message 1 received from 1: 101
+El tamaño del mensaje recibido es: 4
+Message 2 received from 1: 102
+El tamaño del mensaje recibido es: 4
+Message 3 received from 1: 103
+El tamaño del mensaje recibido es: 4
+Message 4 received from 1: 104
+El tamaño del mensaje recibido es: 4
+Message 5 received from 1: 105
+El tamaño del mensaje recibido es: 4
+Message 6 received from 1: 106
+El tamaño del mensaje recibido es: 4
+Message 7 received from 1: 107
+El tamaño del mensaje recibido es: 4
+Message 8 received from 1: 108
+El tamaño del mensaje recibido es: 4
+Message 9 received from 1: 109
+El tamaño del mensaje recibido es: 4
+Receiver ends printing messages.
+
+
+
+
+
+
+
+

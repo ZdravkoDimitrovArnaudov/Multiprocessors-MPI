@@ -1,0 +1,53 @@
+Zdravko Dimitrov Arnaudov
+---------------
+- MEMORIA P1 : Ejer 3
+--------------
+
+Memoria paralela y paradigma master/slave.
+
+ÍNDICE
+	1. A)
+	2. B) 
+	3. C)
+
+
+1.
+
+Lo que haremos será crear un programa en el que vayan a correr 4 procesos. Tendremos a 3 procesos computando el array y enviando sus resultados 
+al proceso master, que es el último(3) y quien agrupará todos los resultados para imprimirlos por pantalla. Luego veremos si este puede inicializar el array. Hay que tener en cuenta también que el array de tamaño N, debe ser múltiplo de P-1, siendo p el número de procesos para que computen lo mismo y no exista un resto.
+
+Probaremos con tamaño de array 9:
+
+Sender: 0 acaba de terminar.
+Sender: 1 acaba de terminar.
+Sender: 2 acaba de terminar.
+Suma individual recibida de proceso esclavo: 0 es = 3
+Suma individual recibida de proceso esclavo: 1 es = 12
+Suma individual recibida de proceso esclavo: 2 es = 21
+El resultado global de la suman es: 36
+
+Ahora, intentaremos inicializar el array en el master. De nuevo, obtenemos un resultado correcto,
+queda comentado en el código.
+
+
+
+2.
+
+Haremos que cada esclavo genere su propio array y luego mandar el resultado. Comprobamos el resultado y verificamos 
+que es correcto. En este caso, no tenemos que jugar tanto con las posiciones de los arrays en si. Simplemente, le añadimos los 
+valores que tenga que tener. La diferencia del anterior programa es que aquí cada proceso no tiene que estar ocupando tanta memoria.
+
+
+3.
+
+Hemos empleado la fórmula de los primeros N números naturales. Además, cada proceso, cuando sea posible, 
+enviará la suma de los N primeros números que le corresponda al siguiente proceso, así podemos reutilizar el trabajo y no conducir
+a una situación en la que cuanto más alto tenga el id un proceso, más tiene que trabajar.
+
+
+
+
+
+
+
+

@@ -1,0 +1,98 @@
+Zdravko Dimitrov Arnaudov
+---------------
+- MEMORIA P1 : Ejer 2
+--------------
+
+En este ejercicio haremos uso de otros modos de envío.
+
+ÍNDICE
+	1. A)
+	2. B) 
+	3. C)
+	4. D)
+
+
+1.
+
+En este apartado, emplearemos el modo buffereado. Para ello, mandaremos el array completo con todos 
+los valores que queremos. Debemos usar buffer atach para delimitar el tamaño que se precisa enviar.
+
+ Ejer2_A
+Receiver: 0 printing messages received:
+Message 1 received from 1: 100
+Message 1 received from 1: 101
+Message 1 received from 1: 102
+Message 1 received from 1: 103
+Message 1 received from 1: 104
+Message 1 received from 1: 105
+Message 1 received from 1: 106
+Message 1 received from 1: 107
+Message 1 received from 1: 108
+Message 1 received from 1: 109
+El tamaño del mensaje recibido es: 40
+Receiver ends printing messages.
+Sender 1 has just finished sending messages.
+
+
+2.
+
+
+Si reducimos el tamaño del buffer a 1 byte, el programa sigue funcionando. Es necesario agrandar la diferencia 
+de tamaño con los datos que se envían para que MPI nos avise del error:
+
+ Ejer2_B 1011
+[ubuntu-linux-20-04-desktop:19145] *** An error occurred in MPI_Bsend
+[ubuntu-linux-20-04-desktop:19145] *** reported by process [3877240833,281470681743361]
+[ubuntu-linux-20-04-desktop:19145] *** on communicator MPI_COMM_WORLD
+[ubuntu-linux-20-04-desktop:19145] *** MPI_ERR_BUFFER: invalid buffer pointer
+[ubuntu-linux-20-04-desktop:19145] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ubuntu-linux-20-04-desktop:19145] ***    and potentially your MPI job)
+
+
+
+
+3.
+
+En este caso, enviaremos dos mensajes cada vez y los recibiremos inversamente.
+Cuando mandamos los mensajes en modo básico, se reciben sin problemas.
+
+irun -np 2 Ejer2_C
+Receiver: 0 printing messages received:
+Sender 1 has just finished.
+Message 109 received from 1: 109
+Message 9 received from 1: 109
+Message 108 received from 1: 108
+Message 8 received from 1: 108
+Message 107 received from 1: 107
+Message 7 received from 1: 107
+Message 106 received from 1: 106
+Message 6 received from 1: 106
+Message 105 received from 1: 105
+Message 5 received from 1: 105
+Message 104 received from 1: 104
+Message 4 received from 1: 104
+Message 103 received from 1: 103
+Message 3 received from 1: 103
+Message 102 received from 1: 102
+Message 2 received from 1: 102
+Message 101 received from 1: 101
+Message 1 received from 1: 101
+Message 100 received from 1: 100
+Message 0 received from 1: 100
+Receiver ends printing messages.
+
+
+Sin embargo, usando el modo síncrono (MPI_Ssend), el programa no termina. Esto es porque 
+el receptor, por el orden de recepción de los mensajes, está esperando a un mensaje que no llega y el emisor no continua.
+
+mpirun -np 2 Ejer2_C
+Receiver: 0 printing messages received:
+
+
+4.
+
+Con el modo ready, el Rsend toma lugar si ya se ha establecido un Recv previamente. Si el tamaño de envío supera el umbral, que es 1024 enteros (4096bytes), deja de funcionar. 
+
+
+
+	
